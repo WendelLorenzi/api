@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 if (process.env.NODE_ENV === 'test') {
   require('dotenv').config({ path: `${process.cwd()}/.env.local.test` })
 }
