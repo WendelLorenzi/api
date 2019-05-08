@@ -1,4 +1,3 @@
-require('newrelic')
 const app = require('./src/app')
 const debug = require('debug')('server:info')
 
