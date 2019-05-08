@@ -18,8 +18,8 @@ install:
   - npm install
 
 script:
-  - npm test
   - npm run lint
+  - npm test
 
 after_success:
   - sonar-scanner
