@@ -7,13 +7,14 @@ exports.resolver = {
       ctx.dataloaders.userLoader(info).load(user.toString())
   },
   Query: {
-    bookings: (_, args, ctx, info) => ctx.services.Booking.get(ctx, info)
+    bookings: (_, args, ctx, info) =>
+      ctx.services.BookingService.get(ctx, info)
   },
   Mutation: {
     bookEvent: async (_, { eventId }, ctx) =>
-      ctx.services.Booking.bookEvent(eventId, ctx),
+      ctx.services.BookingService.bookEvent(eventId, ctx),
 
     cancelBooking: async (_, { bookingId }, ctx, info) =>
-      ctx.services.Booking.cancel(bookingId, ctx, info)
+      ctx.services.BookingService.cancel(bookingId, ctx, info)
   }
 }

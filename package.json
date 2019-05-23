@@ -12,9 +12,12 @@
   "author": "Rafael Santos",
   "license": "MIT",
   "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
+    "@sentry/node": "^5.2.0",
     "apollo-server-express": "2.4.8",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "crypto": "^1.0.1",
     "dataloader": "^1.4.0",
     "debug": "^4.1.1",
     "express": "^4.16.4",

@@ -11,8 +11,12 @@ const mqtt = require('./mqtt')
 const app = express()
 const { models } = require('./database')
 const dataloaders = require('./graphql/dataloaders')
-const BookingService = require('./services/booking-service')
-const EventService = require('./services/event-service')
+
+const services = require('./services')
+
+const Sentry = require('@sentry/node')
+
+Sentry.init({ dsn: process.env.SENTRY_DSN })
 
 app.use(bodyParser.json())
 
@@ -21,7 +25,7 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS')
   res.setHeader(
     'Access-Control-Allow-Headers',
-    'Content-Type, Authorization, Recaptcha'
+    'Content-Type, Authorization, Recaptcha, X-Sentry-Token'
   )
   if (req.method === 'OPTIONS') {
     return res.sendStatus(200)
@@ -32,6 +36,7 @@ app.use((req, res, next) => {
 const server = new ApolloServer({
   schema: graphQLSchema,
   formatError (err) {
+    Sentry.captureException(err)
     debug('graphql:error')(err)
     return err
   },
@@ -44,10 +49,7 @@ const server = new ApolloServer({
         models,
         dataloaders,
         mqtt,
-        services: {
-          Booking: BookingService,
-          Event: EventService
-        },
+        services,
         recaptchaData: {
           ip: req.ip,
           key: req.headers.recaptcha

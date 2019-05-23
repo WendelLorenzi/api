@@ -40,9 +40,50 @@ input EventInput {
   date: DateTime!
 }
 
+type Produto {
+  _id: ID!
+  name: String!
+  price: Float!
+  disableSize: Boolean
+  img: [String!]
+}
+
+input ProdutoInput {
+  name: String!
+  price: Float!
+  disableSize: Boolean
+  img: [String!]!
+}
+
+input ProdutoPedidoInput {
+  _id: ID!
+  size: String
+}
+
+input PedidoInput {
+  email: Email!
+  name: String!
+  number: String!
+  products: [ProdutoPedidoInput!]!
+}
+
 input UpdateEventInput {
   _id: ID!
   event: EventInput!
+}
+
+type ProductOrder {
+  product: Produto
+  size: String
+}
+
+type Order {
+  email: Email
+  name: String
+  number: String
+  products: [ProductOrder]
+  _id: ID!
+  isVerified: Boolean
 }
 
 type Query {
@@ -52,6 +93,9 @@ type Query {
 
 
   status: Boolean
+
+  products: [Produto]
+  orders: [Order] @isAuth
 }
 
 type Mutation {
@@ -64,6 +108,12 @@ type Mutation {
 
   turnOn(relay: Int!): Boolean
   turnOff(relay: Int!): Boolean
+
+  createProduct(produto: ProdutoInput!): Produto @isAuth
+  deleteProduct(id: ID!): Boolean @isAuth
+  createOrder(input: PedidoInput!): Boolean @recaptcha
+
+  verify(verification: String!): Boolean
 }
 
 type NewValue {

@@ -1,6 +1,7 @@
-const reCAPTCHA = require('recaptcha2')
+const ReCAPTCHA = require('recaptcha2')
 
-const recaptcha = new reCAPTCHA({ // eslint-disable-line new-cap
+const recaptcha = new ReCAPTCHA({
+  // eslint-disable-line new-cap
   siteKey: process.env.RECAPTCHA_SITE_KEY,
   secretKey: process.env.RECAPTCHA_SECRET_KEY
 })
